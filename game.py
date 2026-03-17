@@ -2,333 +2,286 @@ import random
 import time
 import sys
 
-# GLOBAL VARIABLES EVERYWHERE
-p_hp = 100
-p_mp = 50
-p_xp = 0
-p_lvl = 1
-p_name = "CRISPY BROTHER"
-p_inv = ["Old Bread", "Rusty Spoon"]
-p_loc = "Kitchen"
-p_gold = 10
-is_alive = True
-has_key = False
-boss_hp = 500
-enemy_name = ""
-enemy_hp = 0
-turn_count = 0
-weather = "Sunny"
-hunger = 0
-thirst = 0
-luck = 5
-strength = 10
-agility = 10
-intelligence = 10
-stamina = 100
-mana_regen = 5
-health_regen = 2
-is_poisoned = False
-is_stunned = False
-is_burning = False
-is_frozen = False
-is_invisible = False
-is_invincible = False
-is_flying = False
-is_swimming = False
-is_climbing = False
-is_sleeping = False
-is_confused = False
+# --- THE SPAGHETTI STRATEGY ENGINE v3 (ULTIMATE CHAOS) ---
+# Global variables for everything, no classes, just a massive web of logic.
+
+kingdom_name = "CRISPY EMPIRE"
+gold = 1500
+population = 750
+soldiers = 80
+food = 3000
+happiness = 85
+stability = 90
+prestige = 20
+year = 1200
+is_game_over = False
+
+# Relations with neighbors
+neighbor_a_relation = 50 # The Kingdom of Soggy Bread
+neighbor_b_relation = 40 # The Republic of Toasted Cheese
+neighbor_c_relation = 20 # The Empire of Burnt Crust
+
+# Building levels
+farm_lvl = 1
+barracks_lvl = 1
+market_lvl = 1
+castle_lvl = 1
+temple_lvl = 0
+library_lvl = 0
+spy_network_lvl = 0
+wall_lvl = 1
+
+# Random flags for consequences
+has_plague = False
+is_at_war = False
+tax_rate = 15
+conscription_active = False
+festival_active = False
 is_cursed = False
 is_blessed = False
-is_enraged = False
-is_tired = False
-is_hungry = False
-is_thirsty = False
-is_dirty = False
-is_smelly = False
-is_happy = True
-is_sad = False
-is_angry = False
-is_scared = False
-is_bored = False
-is_excited = False
-is_surprised = False
-is_disgusted = False
-is_ashamed = False
-is_guilty = False
-is_proud = False
-is_lonely = False
-is_loved = False
-is_hated = False
-is_jealous = False
-is_greedy = False
-is_lazy = False
-is_lustful = False
-is_gluttonous = False
-is_vain = False
-is_cruel = False
-is_kind = False
-is_honest = False
-is_brave = False
-is_cowardly = False
-is_wise = False
-is_foolish = False
-is_strong = False
-is_weak = False
-is_fast = False
-is_slow = False
-is_smart = False
-is_dumb = False
-is_rich = False
-is_poor = False
-is_famous = False
-is_infamous = False
-is_hero = False
-is_villain = False
-is_legend = False
-is_myth = False
-is_god = False
-is_mortal = False
-is_immortal = False
-is_undead = False
-is_ghost = False
-is_demon = False
-is_angel = False
-is_alien = False
-is_robot = False
-is_cyborg = False
-is_mutant = False
-is_vampire = False
-is_werewolf = False
-is_zombie = False
-is_skeleton = False
-is_dragon = False
-is_phoenix = False
-is_unicorn = False
-is_mermaid = False
-is_centaur = False
-is_minotaur = False
-is_cyclops = False
-is_giant = False
-is_dwarf = False
-is_elf = False
-is_orc = False
-is_goblin = False
-is_troll = False
-is_ogre = False
-is_gnome = False
-is_halfling = False
-is_hobbit = False
-is_human = True
+rebellion_chance = 0
+science_points = 0
+faith_points = 0
+corruption = 5
+culture = 10
+defense_bonus = 0
 
-print("WELCOME TO THE WORLD OF CRISPY BROTHER!!!")
-print("-----------------------------------------")
+# History log
+history = []
 
-while is_alive:
-    print("\n--- STATUS ---")
-    print("Name:", p_name)
-    print("HP:", p_hp)
-    print("MP:", p_mp)
-    print("Location:", p_loc)
-    print("Inventory:", p_inv)
-    print("Gold:", p_gold)
-    print("Hunger:", hunger)
-    print("Thirst:", thirst)
-    print("Weather:", weather)
+def show_status():
+    print("\n" + "═"*60)
+    print(f"👑 {kingdom_name} - YEAR {year} 👑")
+    print(f"💰 Gold: {gold} | 🍞 Food: {food} | 👥 Pop: {population}")
+    print(f"⚔️ Soldiers: {soldiers} | 😊 Happiness: {happiness}%")
+    print(f"⚖️ Stability: {stability}% | ⭐ Prestige: {prestige}")
+    print(f"🔬 Science: {science_points} | 🙏 Faith: {faith_points} | 🎭 Culture: {culture}")
+    print(f"📉 Corruption: {corruption}% | 🛡️ Walls: Lvl {wall_lvl}")
+    print("═"*60)
+
+def slow_print(text, speed=0.01):
+    for char in text:
+        sys.stdout.write(char)
+        sys.stdout.flush()
+        time.sleep(speed)
+    print()
+
+def add_history(event):
+    history.append(f"Year {year}: {event}")
+    if len(history) > 5:
+        history.pop(0)
+
+slow_print("WELCOME TO CRISPY BROTHER: THE ULTIMATE STRATEGY CHRONICLES", 0.02)
+slow_print("Your legacy is written in the blood of your people and the gold in your vaults.", 0.02)
+
+while not is_game_over:
+    show_status()
     
-    if hunger > 50:
-        print("You are hungry!")
-        is_hungry = True
-    if thirst > 50:
-        print("You are thirsty!")
-        is_thirsty = True
+    if history:
+        print("\nRECENT HISTORY:")
+        for h in history:
+            print(f" - {h}")
     
-    if p_hp <= 0:
-        print("YOU DIED!")
-        is_alive = False
-        break
-        
-    cmd = input("What do you want to do? (move, eat, drink, search, status, quit): ").lower()
+    print("\nWhat is your command, Sire?")
+    print("1. Infrastructure (Farms, Barracks, Market, Castle, Temple, Library, Walls, Spy Network)")
+    print("2. Diplomacy (Gifts, Insults, Trade, Espionage, Alliances)")
+    print("3. Military (Recruit, Invade, Defend, Conscription, Training)")
+    print("4. Policy (Taxes, Festivals, Religion, Science, Corruption Crackdown, Cultural Gala)")
+    print("5. Wait (Next Year)")
+    print("6. Abdicate (Quit)")
     
-    if cmd == "quit":
-        print("Goodbye!")
-        break
-    elif cmd == "move":
-        print("Where do you want to go?")
-        dest = input("Destinations: Garden, Cellar, Attic, Street: ").lower()
-        if dest == "garden":
-            p_loc = "Garden"
-            print("You are in the garden. It is " + weather)
-            if random.randint(1, 10) > 7:
-                print("A wild Rat appeared!")
-                enemy_name = "Rat"
-                enemy_hp = 20
-                while enemy_hp > 0 and p_hp > 0:
-                    print("Rat HP:", enemy_hp)
-                    act = input("Action (attack, run): ").lower()
-                    if act == "attack":
-                        dmg = random.randint(1, strength)
-                        enemy_hp -= dmg
-                        print("You hit the Rat for", dmg, "damage!")
-                        if enemy_hp > 0:
-                            e_dmg = random.randint(1, 5)
-                            p_hp -= e_dmg
-                            print("The Rat bit you for", e_dmg, "damage!")
-                    elif act == "run":
-                        if random.randint(1, 10) > 5:
-                            print("You escaped!")
-                            break
-                        else:
-                            print("You couldn't escape!")
-                            e_dmg = random.randint(1, 5)
-                            p_hp -= e_dmg
-                            print("The Rat bit you for", e_dmg, "damage!")
-                if enemy_hp <= 0:
-                    print("You killed the Rat!")
-                    p_xp += 10
-                    p_gold += 2
-        elif dest == "cellar":
-            p_loc = "Cellar"
-            print("It's dark here.")
-            if not has_key:
-                print("You found a key!")
-                has_key = True
-                p_inv.append("Rusty Key")
-        elif dest == "attic":
-            p_loc = "Attic"
-            print("Dusty...")
-            if random.randint(1, 10) == 1:
-                print("You found a Golden Spoon!")
-                p_inv.append("Golden Spoon")
-        elif dest == "street":
-            p_loc = "Street"
-            print("The street is busy.")
-            if p_gold >= 5:
-                buy = input("Do you want to buy a sandwich for 5 gold? (yes/no): ").lower()
-                if buy == "yes":
-                    p_gold -= 5
-                    p_inv.append("Sandwich")
-                    print("Bought a sandwich.")
+    choice = input("> ")
+    
+    if choice == "1":
+        print("What shall we build?")
+        print("f: Farm (200g), b: Barracks (300g), m: Market (250g), c: Castle (500g), t: Temple (400g), l: Library (450g), w: Walls (350g), s: Spy Network (400g)")
+        b_choice = input("> ").lower()
+        if b_choice == "f" and gold >= 200:
+            gold -= 200; farm_lvl += 1; print("Farms upgraded!")
+        elif b_choice == "b" and gold >= 300:
+            gold -= 300; barracks_lvl += 1; print("Barracks upgraded!")
+        elif b_choice == "m" and gold >= 250:
+            gold -= 250; market_lvl += 1; print("Market upgraded!")
+        elif b_choice == "c" and gold >= 500:
+            gold -= 500; castle_lvl += 1; stability += 10; print("Castle reinforced!")
+        elif b_choice == "t" and gold >= 400:
+            gold -= 400; temple_lvl += 1; faith_points += 15; print("Temple built!")
+        elif b_choice == "l" and gold >= 450:
+            gold -= 450; library_lvl += 1; science_points += 15; print("Library built!")
+        elif b_choice == "w" and gold >= 350:
+            gold -= 350; wall_lvl += 1; defense_bonus += 10; print("Walls heightened!")
+        elif b_choice == "s" and gold >= 400:
+            gold -= 400; spy_network_lvl += 1; print("Spy network expanded!")
         else:
-            print("Invalid destination!")
-            
-    elif cmd == "eat":
-        if "Old Bread" in p_inv:
-            print("Eating old bread...")
-            p_hp += 5
-            hunger -= 20
-            p_inv.remove("Old Bread")
-        elif "Sandwich" in p_inv:
-            print("Eating a sandwich...")
-            p_hp += 20
-            hunger -= 50
-            p_inv.remove("Sandwich")
-        else:
-            print("Nothing to eat!")
-            
-    elif cmd == "drink":
-        print("Drinking water...")
-        thirst -= 30
-        p_hp += 2
-        
-    elif cmd == "search":
-        print("Searching...")
-        time.sleep(1)
-        res = random.randint(1, 5)
-        if res == 1:
-            print("Found 1 gold!")
-            p_gold += 1
-        elif res == 2:
-            print("Found some bread!")
-            p_inv.append("Old Bread")
-        else:
-            print("Found nothing.")
-            
-    elif cmd == "status":
-        # Redundant status check
-        print("--- DETAILED STATUS ---")
-        print("Strength:", strength)
-        print("Agility:", agility)
-        print("Intelligence:", intelligence)
-        print("Stamina:", stamina)
-        print("XP:", p_xp)
-        print("Level:", p_lvl)
-        if p_xp >= 100:
-            p_lvl += 1
-            p_xp -= 100
-            strength += 2
-            print("LEVEL UP! You are now level", p_lvl)
-            
-    else:
-        print("Unknown command!")
+            print("Not enough gold or invalid choice!")
 
-    # Random events at the end of each turn
-    turn_count += 1
-    hunger += 5
-    thirst += 7
+    elif choice == "2":
+        print("Which neighbor?")
+        n_choice = input("a: Soggy Bread, b: Toasted Cheese, c: Burnt Crust: ").lower()
+        print("Action: g: Gift (100g), i: Insult, t: Trade, e: Espionage (150g), l: Alliance (500g)")
+        act = input("> ").lower()
+        
+        target_rel = 0
+        if n_choice == "a": target_rel = neighbor_a_relation
+        elif n_choice == "b": target_rel = neighbor_b_relation
+        elif n_choice == "c": target_rel = neighbor_c_relation
+        
+        if act == "g" and gold >= 100:
+            gold -= 100; target_rel += 25; print("They liked the gift.")
+        elif act == "i":
+            target_rel -= 50; prestige += 15; print("You insulted them! Your prestige grows, but they are furious.")
+        elif act == "t":
+            if target_rel > 40:
+                gold += 250 + (market_lvl * 60); food -= 200; print("Trade successful!")
+            else:
+                print("They refuse to trade.")
+        elif act == "e" and gold >= 150:
+            gold -= 150
+            success_chance = 0.4 + (spy_network_lvl * 0.1)
+            if random.random() < success_chance:
+                loot = random.randint(400, 800); gold += loot; target_rel -= 30; print(f"Spy successful! Stole {loot} gold.")
+            else:
+                print("Spy caught! They are angry."); target_rel -= 60; prestige -= 20
+        elif act == "l" and gold >= 500:
+            if target_rel > 70:
+                gold -= 500; target_rel = 100; stability += 20; print("ALLIANCE FORMED!")
+            else:
+                print("They don't trust you enough for an alliance.")
+        
+        if n_choice == "a": neighbor_a_relation = target_rel
+        elif n_choice == "b": neighbor_b_relation = target_rel
+        elif n_choice == "c": neighbor_c_relation = target_rel
+
+    elif choice == "3":
+        print("Military actions:")
+        print("r: Recruit (20g/soldier), v: Invade, c: Conscription (Free but unhappy), t: Training (200g)")
+        m_act = input("> ").lower()
+        if m_act == "r":
+            num = int(input("How many? "))
+            if gold >= num * 20:
+                gold -= num * 20; soldiers += num; population -= num; print(f"Recruited {num} soldiers.")
+            else:
+                print("Not enough gold!")
+        elif m_act == "c":
+            num = int(input("How many to force into service? "))
+            soldiers += num; population -= num; happiness -= num // 2; stability -= num // 3; print(f"Forced {num} people into the army.")
+        elif m_act == "t" and gold >= 200:
+            gold -= 200; science_points += 5; defense_bonus += 5; print("Soldiers trained!")
+        elif m_act == "v":
+            target = input("Target (a, b, c): ").lower()
+            print("WAR!")
+            is_at_war = True
+            win_chance = (soldiers / 200) * (stability / 100) * (1 + (science_points / 150))
+            if win_chance > 0.55:
+                loot = random.randint(1000, 3000); gold += loot; prestige += 40; happiness += 15; add_history(f"Conquered lands of {target}")
+                print(f"VICTORY! You looted {loot} gold.")
+            else:
+                loss = soldiers // 2; soldiers -= loss; stability -= 40; happiness -= 30; print(f"DEFEAT! You lost {loss} soldiers.")
+            is_at_war = False
+
+    elif choice == "4":
+        print("Policy actions:")
+        print("t: Set Taxes, f: Festival (500g), r: Religious Ritual (300g), s: Science Grant (400g), c: Corruption Crackdown (200g), g: Cultural Gala (400g)")
+        e_act = input("> ").lower()
+        if e_act == "t":
+            tax_rate = int(input("New tax rate (0-70%): "))
+            if tax_rate > 25:
+                happiness -= (tax_rate - 25) * 4; stability -= (tax_rate - 25) * 2; print("The people are furious about the taxes.")
+        elif e_act == "f" and gold >= 500:
+            gold -= 500; happiness += 30; stability += 10; print("A grand festival is held.")
+        elif e_act == "r" and gold >= 300:
+            gold -= 300; faith_points += 30; is_blessed = (random.random() > 0.6); print("Ritual performed.")
+        elif e_act == "s" and gold >= 400:
+            gold -= 400; science_points += 40; print("Scientific breakthrough!")
+        elif e_act == "c" and gold >= 200:
+            gold -= 200; corruption -= 10; stability += 10; print("Corruption reduced.")
+        elif e_act == "g" and gold >= 400:
+            gold -= 400; culture += 25; prestige += 10; print("Cultural gala was a success.")
+
+    elif choice == "5":
+        # --- YEARLY CALCULATIONS (THE SPAGHETTI CORE v3) ---
+        year += 1
+        
+        # Production & Consumption
+        food_produced = (farm_lvl * 700) + (science_points * 8)
+        food_consumed = population + (soldiers * 4)
+        if is_blessed: food_produced *= 1.3
+        food += (food_produced - food_consumed)
+        
+        gold_income = (population * (tax_rate / 100)) + (market_lvl * 200) + (prestige * 5) + (culture * 2)
+        gold_income -= (gold_income * (corruption / 100)) # Corruption eats gold
+        gold += int(gold_income)
+        
+        # Population growth
+        if food > 0:
+            growth = int(population * 0.07)
+            population += growth; happiness += 3
+        else:
+            starvation = int(population * 0.2); population -= starvation; happiness -= 30; stability -= 20; print("!!! MASS FAMINE !!!")
+            add_history("Famine killed thousands.")
+            
+        # Rebellion logic
+        rebellion_chance = (100 - happiness) + (100 - stability) + (tax_rate * 3) + corruption
+        if rebellion_chance > 150:
+            print("!!! CIVIL WAR !!!")
+            if soldiers > 100:
+                print("The army held the capital, but the country is in ruins.")
+                population -= 200; soldiers -= 40; stability -= 40; gold -= 1000; add_history("Civil war suppressed.")
+            else:
+                print("The rebels have stormed the palace! You are dragged to the guillotine.")
+                is_game_over = True; break
+        
+        # Random Events
+        event = random.randint(1, 15)
+        if event == 1:
+            print("!!! THE GREAT PLAGUE !!!"); population -= int(population * 0.4); stability -= 30; happiness -= 30; add_history("The Great Plague struck.")
+        elif event == 2:
+            print("!!! GOLD RUSH !!!"); gold += 3000; add_history("Gold rush in the mountains.")
+        elif event == 3:
+            print("!!! FOREIGN INVASION !!!")
+            enemy_power = random.randint(100, 400)
+            total_defense = soldiers + (wall_lvl * 20) + defense_bonus
+            if total_defense > enemy_power:
+                print("Your walls and soldiers held the line!"); soldiers -= 20; add_history("Repelled foreign invasion.")
+            else:
+                print("The enemy breached the walls!"); gold -= 1500; population -= 200; stability -= 30; wall_lvl -= 1; add_history("City sacked by invaders.")
+        elif event == 4:
+            if faith_points > 100:
+                print("!!! DIVINE INTERVENTION !!!"); happiness = 100; stability = 100; gold += 1000; add_history("Divine miracle occurred.")
+        elif event == 5:
+            print("!!! CORRUPTION SCANDAL !!!"); corruption += 20; stability -= 20; add_history("Corruption scandal exposed.")
+        elif event == 6:
+            if science_points > 100:
+                print("!!! INDUSTRIAL REVOLUTION !!!"); farm_lvl += 2; market_lvl += 2; gold += 2000; add_history("Industrial revolution began.")
+        
+        # Corruption growth
+        corruption += 2
+        
+        # Check lose conditions
+        if population <= 0:
+            print("Your kingdom is a wasteland. GAME OVER."); is_game_over = True
+        elif stability <= 0:
+            print("Total anarchy has consumed the empire. GAME OVER."); is_game_over = True
+        elif gold < -5000:
+            print("The international bankers have repossessed your crown. GAME OVER."); is_game_over = True
+        
+        is_blessed = False
+
+    elif choice == "6":
+        print("You have left the throne. Your name will be a footnote in history."); is_game_over = True
     
-    if turn_count % 5 == 0:
-        weathers = ["Sunny", "Rainy", "Stormy", "Cloudy", "Foggy"]
-        weather = random.choice(weathers)
-        print("The weather changed to", weather)
-        
-    if weather == "Rainy":
-        p_hp -= 1
-        print("The rain makes you feel cold. -1 HP")
-    elif weather == "Stormy":
-        p_hp -= 3
-        print("The storm is harsh! -3 HP")
-        
-    if hunger > 100:
-        print("You are starving!")
-        p_hp -= 10
-    if thirst > 100:
-        print("You are dying of thirst!")
-        p_hp -= 15
+    # Spaghetti logic: Unconnected state management
+    if happiness > 100: happiness = 100
+    if happiness < 0: happiness = 0
+    if stability > 100: stability = 100
+    if stability < 0: stability = 0
+    if corruption < 0: corruption = 0
+    
+    if prestige > 500:
+        print("YOU ARE THE EMPEROR OF THE WORLD!")
+    
+    time.sleep(1.5)
 
-    # More spaghetti logic
-    if p_loc == "Garden" and weather == "Sunny" and "Golden Spoon" in p_inv:
-        print("The sun reflects off your Golden Spoon and blinds a passing bird!")
-        print("The bird drops a diamond!")
-        p_inv.append("Diamond")
-        
-    if "Diamond" in p_inv and p_loc == "Street":
-        print("A merchant sees your diamond!")
-        sell = input("Sell diamond for 100 gold? (yes/no): ").lower()
-        if sell == "yes":
-            p_inv.remove("Diamond")
-            p_gold += 100
-            print("You are rich!")
-            is_rich = True
-
-    if p_gold > 1000:
-        print("YOU WIN! You bought the whole world!")
-        break
-
-    # Deeply nested unnecessary logic
-    if is_rich:
-        if p_lvl > 5:
-            if has_key:
-                if "Golden Spoon" in p_inv:
-                    print("You are the ultimate CRISPY BROTHER!")
-                    if random.randint(1, 100) == 42:
-                        print("SECRET ENDING UNLOCKED!")
-                        is_god = True
-                        break
-
-    # Random logic jumps
-    if random.randint(1, 1000) == 777:
-        print("A portal opens!")
-        p_loc = "Space"
-        print("You are in space. You can't breathe.")
-        p_hp = 0
-
-    # Redundant checks
-    if p_hp < 0: p_hp = 0
-    if p_hp > 100: p_hp = 100
-    if p_mp < 0: p_mp = 0
-    if p_mp > 50: p_mp = 50
-    if hunger < 0: hunger = 0
-    if thirst < 0: thirst = 0
-
-print("GAME OVER")
+print("\n" + "💀"*30)
+print("FINAL SCORE:", (gold + population + soldiers + prestige + science_points + faith_points + culture))
+print("💀"*30)

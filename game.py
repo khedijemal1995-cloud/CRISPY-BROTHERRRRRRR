@@ -2,62 +2,74 @@ import random
 import time
 import sys
 
-# --- THE SPAGHETTI STRATEGY ENGINE v3 (ULTIMATE CHAOS) ---
-# Global variables for everything, no classes, just a massive web of logic.
+# --- REAL-LIFE SYSTEMS SIMULATOR v3 (ULTIMATE SPAGHETTI) ---
+# Global variables for real-world metrics, currencies, and systems.
 
-kingdom_name = "CRISPY EMPIRE"
-gold = 1500
-population = 750
-soldiers = 80
-food = 3000
-happiness = 85
-stability = 90
-prestige = 20
-year = 1200
+country_name = "CRISPY REPUBLIC"
+usd_balance = 25000000.0  # 25 Million USD
+eur_balance = 15000000.0  # 15 Million EUR
+cny_balance = 50000000.0  # 50 Million CNY
+local_currency_balance = 500000000.0
+exchange_rate_usd = 3.75  # Local to USD
+exchange_rate_eur = 4.00  # Local to EUR
+exchange_rate_cny = 0.52  # Local to CNY
+inflation_rate = 0.025
+gdp = 1000000000.0
+population = 2500000
+unemployment_rate = 0.055
+tax_revenue = 0.0
+government_debt = 150000000.0
+interest_rate = 0.04
+year = 2026
+month = 3
 is_game_over = False
 
-# Relations with neighbors
-neighbor_a_relation = 50 # The Kingdom of Soggy Bread
-neighbor_b_relation = 40 # The Republic of Toasted Cheese
-neighbor_c_relation = 20 # The Empire of Burnt Crust
+# Infrastructure & Services
+healthcare_quality = 70
+education_level = 65
+military_strength = 50
+infrastructure_index = 60
+corruption_index = 10
+energy_security = 75
+environmental_health = 80
 
-# Building levels
-farm_lvl = 1
-barracks_lvl = 1
-market_lvl = 1
-castle_lvl = 1
-temple_lvl = 0
-library_lvl = 0
-spy_network_lvl = 0
-wall_lvl = 1
+# Political System
+political_stability = 90
+public_approval = 80
+is_democracy = True
+last_election_year = 2024
+rebellion_risk = 0
+international_sanctions = 0 # 0 to 100
 
-# Random flags for consequences
-has_plague = False
-is_at_war = False
-tax_rate = 15
-conscription_active = False
-festival_active = False
-is_cursed = False
-is_blessed = False
-rebellion_chance = 0
-science_points = 0
-faith_points = 0
-corruption = 5
-culture = 10
-defense_bonus = 0
+# Trade & Global Relations
+oil_price = 85.0
+gold_price = 2200.0
+bitcoin_price = 70000.0
+export_volume = 1500000.0
+import_volume = 1200000.0
+crypto_balance = 0.0
+gold_reserve = 10000.0 # oz
 
-# History log
-history = []
+# Stock Market
+stock_index = 15000.0
+is_market_open = True
 
-def show_status():
-    print("\n" + "═"*60)
-    print(f"👑 {kingdom_name} - YEAR {year} 👑")
-    print(f"💰 Gold: {gold} | 🍞 Food: {food} | 👥 Pop: {population}")
-    print(f"⚔️ Soldiers: {soldiers} | 😊 Happiness: {happiness}%")
-    print(f"⚖️ Stability: {stability}% | ⭐ Prestige: {prestige}")
-    print(f"🔬 Science: {science_points} | 🙏 Faith: {faith_points} | 🎭 Culture: {culture}")
-    print(f"📉 Corruption: {corruption}% | 🛡️ Walls: Lvl {wall_lvl}")
-    print("═"*60)
+# Global Events
+climate_change_impact = 0.01
+global_tension = 20 # 0 to 100
+
+def show_dashboard():
+    print("\n" + "═"*90)
+    print(f"🏛️  {country_name} - {month}/{year} 🏛️")
+    print(f"💵 USD: {usd_balance:,.2f} | 💶 EUR: {eur_balance:,.2f} | 💴 CNY: {cny_balance:,.2f}")
+    print(f"💰 Local: {local_currency_balance:,.2f} | 🪙 BTC: {crypto_balance:,.4f} | 🟡 Gold: {gold_reserve:,.2f} oz")
+    print(f"📈 GDP: {gdp:,.2f} | 👥 Pop: {population:,} | 💼 Unemp: {unemployment_rate*100:.2f}%")
+    print(f"📊 Inflation: {inflation_rate*100:.2f}% | 🏛️  Debt: {government_debt:,.2f} | 📈 Rate: {interest_rate*100:.2f}%")
+    print(f"🏥 Health: {healthcare_quality}% | 🎓 Edu: {education_level}% | ⚡ Energy: {energy_security}% | 🌿 Env: {environmental_health}%")
+    print(f"⚖️  Stability: {political_stability}% | 👍 Approval: {public_approval}% | 📉 Corruption: {corruption_index}%")
+    print(f"📉 Stock Index: {stock_index:,.2f} | 🛢️ Oil: ${oil_price:.2f} | 🟡 Gold Price: ${gold_price:.2f}")
+    print(f"🌍 Global Tension: {global_tension}% | 🚫 Sanctions: {international_sanctions}%")
+    print("═"*90)
 
 def slow_print(text, speed=0.01):
     for char in text:
@@ -66,222 +78,201 @@ def slow_print(text, speed=0.01):
         time.sleep(speed)
     print()
 
-def add_history(event):
-    history.append(f"Year {year}: {event}")
-    if len(history) > 5:
-        history.pop(0)
-
-slow_print("WELCOME TO CRISPY BROTHER: THE ULTIMATE STRATEGY CHRONICLES", 0.02)
-slow_print("Your legacy is written in the blood of your people and the gold in your vaults.", 0.02)
+slow_print("WELCOME TO THE ULTIMATE REAL-WORLD SYSTEMS SIMULATOR: CRISPY BROTHER EDITION", 0.02)
+slow_print("The world is interconnected. Your decisions in one sector will echo across the globe.", 0.02)
 
 while not is_game_over:
-    show_status()
+    show_dashboard()
     
-    if history:
-        print("\nRECENT HISTORY:")
-        for h in history:
-            print(f" - {h}")
-    
-    print("\nWhat is your command, Sire?")
-    print("1. Infrastructure (Farms, Barracks, Market, Castle, Temple, Library, Walls, Spy Network)")
-    print("2. Diplomacy (Gifts, Insults, Trade, Espionage, Alliances)")
-    print("3. Military (Recruit, Invade, Defend, Conscription, Training)")
-    print("4. Policy (Taxes, Festivals, Religion, Science, Corruption Crackdown, Cultural Gala)")
-    print("5. Wait (Next Year)")
-    print("6. Abdicate (Quit)")
+    print("\nSelect Department to Manage:")
+    print("1. Central Bank (Currency, Interest Rates, Crypto, Gold, Reserves)")
+    print("2. Ministry of Finance (Taxes, Debt, Stock Market, Bonds)")
+    print("3. Ministry of Interior (Healthcare, Education, Infrastructure, Energy, Environment)")
+    print("4. Ministry of Defense & Foreign Affairs (Military, Trade, Oil, Diplomacy, Sanctions)")
+    print("5. Next Month (Simulate Time)")
+    print("6. Resign (Quit)")
     
     choice = input("> ")
     
     if choice == "1":
-        print("What shall we build?")
-        print("f: Farm (200g), b: Barracks (300g), m: Market (250g), c: Castle (500g), t: Temple (400g), l: Library (450g), w: Walls (350g), s: Spy Network (400g)")
-        b_choice = input("> ").lower()
-        if b_choice == "f" and gold >= 200:
-            gold -= 200; farm_lvl += 1; print("Farms upgraded!")
-        elif b_choice == "b" and gold >= 300:
-            gold -= 300; barracks_lvl += 1; print("Barracks upgraded!")
-        elif b_choice == "m" and gold >= 250:
-            gold -= 250; market_lvl += 1; print("Market upgraded!")
-        elif b_choice == "c" and gold >= 500:
-            gold -= 500; castle_lvl += 1; stability += 10; print("Castle reinforced!")
-        elif b_choice == "t" and gold >= 400:
-            gold -= 400; temple_lvl += 1; faith_points += 15; print("Temple built!")
-        elif b_choice == "l" and gold >= 450:
-            gold -= 450; library_lvl += 1; science_points += 15; print("Library built!")
-        elif b_choice == "w" and gold >= 350:
-            gold -= 350; wall_lvl += 1; defense_bonus += 10; print("Walls heightened!")
-        elif b_choice == "s" and gold >= 400:
-            gold -= 400; spy_network_lvl += 1; print("Spy network expanded!")
-        else:
-            print("Not enough gold or invalid choice!")
+        print("\n--- CENTRAL BANK ---")
+        print("a: Adjust Interest Rate, b: Buy/Sell Gold, c: Buy/Sell Bitcoin, d: Currency Exchange (USD/EUR/CNY)")
+        cb_choice = input("> ").lower()
+        if cb_choice == "a":
+            interest_rate = float(input("New Interest Rate (e.g., 0.04): "))
+            inflation_rate -= (interest_rate - 0.04) * 0.7
+            unemployment_rate += (interest_rate - 0.04) * 0.4
+            print(f"Interest rate adjusted to {interest_rate*100}%.")
+        elif cb_choice == "b":
+            amt = float(input("Amount of Gold to trade (oz, negative to sell): "))
+            cost = amt * gold_price
+            if usd_balance >= cost:
+                usd_balance -= cost; gold_reserve += amt
+                print(f"Gold trade completed. Reserve: {gold_reserve:,.2f} oz")
+            else:
+                print("Insufficient USD reserves.")
+        elif cb_choice == "c":
+            amt = float(input("Amount of Bitcoin to trade (negative to sell): "))
+            cost = amt * bitcoin_price
+            if usd_balance >= cost:
+                usd_balance -= cost; crypto_balance += amt
+                print(f"Bitcoin trade completed. Balance: {crypto_balance:,.4f} BTC")
+            else:
+                print("Insufficient USD reserves.")
+        elif cb_choice == "d":
+            print(f"1 USD = {exchange_rate_usd} L | 1 EUR = {exchange_rate_eur} L | 1 CNY = {exchange_rate_cny} L")
+            curr = input("Exchange USD, EUR, or CNY? ").upper()
+            amt = float(input("Amount to sell for Local Currency: "))
+            if curr == "USD" and usd_balance >= amt:
+                usd_balance -= amt; local_currency_balance += amt * exchange_rate_usd
+            elif curr == "EUR" and eur_balance >= amt:
+                eur_balance -= amt; local_currency_balance += amt * exchange_rate_eur
+            elif curr == "CNY" and cny_balance >= amt:
+                cny_balance -= amt; local_currency_balance += amt * exchange_rate_cny
+            else:
+                print("Invalid currency or insufficient balance.")
 
     elif choice == "2":
-        print("Which neighbor?")
-        n_choice = input("a: Soggy Bread, b: Toasted Cheese, c: Burnt Crust: ").lower()
-        print("Action: g: Gift (100g), i: Insult, t: Trade, e: Espionage (150g), l: Alliance (500g)")
-        act = input("> ").lower()
-        
-        target_rel = 0
-        if n_choice == "a": target_rel = neighbor_a_relation
-        elif n_choice == "b": target_rel = neighbor_b_relation
-        elif n_choice == "c": target_rel = neighbor_c_relation
-        
-        if act == "g" and gold >= 100:
-            gold -= 100; target_rel += 25; print("They liked the gift.")
-        elif act == "i":
-            target_rel -= 50; prestige += 15; print("You insulted them! Your prestige grows, but they are furious.")
-        elif act == "t":
-            if target_rel > 40:
-                gold += 250 + (market_lvl * 60); food -= 200; print("Trade successful!")
-            else:
-                print("They refuse to trade.")
-        elif act == "e" and gold >= 150:
-            gold -= 150
-            success_chance = 0.4 + (spy_network_lvl * 0.1)
-            if random.random() < success_chance:
-                loot = random.randint(400, 800); gold += loot; target_rel -= 30; print(f"Spy successful! Stole {loot} gold.")
-            else:
-                print("Spy caught! They are angry."); target_rel -= 60; prestige -= 20
-        elif act == "l" and gold >= 500:
-            if target_rel > 70:
-                gold -= 500; target_rel = 100; stability += 20; print("ALLIANCE FORMED!")
-            else:
-                print("They don't trust you enough for an alliance.")
-        
-        if n_choice == "a": neighbor_a_relation = target_rel
-        elif n_choice == "b": neighbor_b_relation = target_rel
-        elif n_choice == "c": neighbor_c_relation = target_rel
+        print("\n--- FINANCE ---")
+        print("a: Set Income Tax, b: Set Corporate Tax, c: Issue Sovereign Bonds, d: Stock Market Intervention")
+        f_choice = input("> ").lower()
+        if f_choice == "a":
+            new_tax = float(input("New Income Tax Rate (e.g., 0.20): "))
+            public_approval -= (new_tax - 0.15) * 200
+            tax_revenue = gdp * new_tax / 12
+            print(f"Income tax set to {new_tax*100}%.")
+        elif f_choice == "b":
+            corp_tax = float(input("New Corporate Tax Rate (e.g., 0.15): "))
+            gdp *= (1 - (corp_tax - 0.10) * 0.6)
+            stock_index *= (1 - (corp_tax - 0.10) * 3)
+            print(f"Corporate tax set to {corp_tax*100}%.")
+        elif f_choice == "c":
+            amount = float(input("Amount of sovereign bonds to issue (USD): "))
+            usd_balance += amount
+            government_debt += amount * 1.20 # 20% interest on sovereign bonds
+            print(f"Issued {amount:,.2f} in sovereign bonds.")
+        elif f_choice == "d":
+            amt = float(input("Amount of USD to inject into Stock Market: "))
+            if usd_balance >= amt:
+                usd_balance -= amt; stock_index += (amt / 1000000) * 150
+                print("Market intervention successful.")
 
     elif choice == "3":
-        print("Military actions:")
-        print("r: Recruit (20g/soldier), v: Invade, c: Conscription (Free but unhappy), t: Training (200g)")
-        m_act = input("> ").lower()
-        if m_act == "r":
-            num = int(input("How many? "))
-            if gold >= num * 20:
-                gold -= num * 20; soldiers += num; population -= num; print(f"Recruited {num} soldiers.")
-            else:
-                print("Not enough gold!")
-        elif m_act == "c":
-            num = int(input("How many to force into service? "))
-            soldiers += num; population -= num; happiness -= num // 2; stability -= num // 3; print(f"Forced {num} people into the army.")
-        elif m_act == "t" and gold >= 200:
-            gold -= 200; science_points += 5; defense_bonus += 5; print("Soldiers trained!")
-        elif m_act == "v":
-            target = input("Target (a, b, c): ").lower()
-            print("WAR!")
-            is_at_war = True
-            win_chance = (soldiers / 200) * (stability / 100) * (1 + (science_points / 150))
-            if win_chance > 0.55:
-                loot = random.randint(1000, 3000); gold += loot; prestige += 40; happiness += 15; add_history(f"Conquered lands of {target}")
-                print(f"VICTORY! You looted {loot} gold.")
-            else:
-                loss = soldiers // 2; soldiers -= loss; stability -= 40; happiness -= 30; print(f"DEFEAT! You lost {loss} soldiers.")
-            is_at_war = False
+        print("\n--- INTERIOR ---")
+        print("a: Healthcare (5M USD), b: Education (5M USD), c: Infrastructure (10M USD), d: Energy Security (5M USD), e: Environmental Protection (5M USD)")
+        i_choice = input("> ").lower()
+        if i_choice == "a" and usd_balance >= 5000000:
+            usd_balance -= 5000000; healthcare_quality += 10; public_approval += 7
+        elif i_choice == "b" and usd_balance >= 5000000:
+            usd_balance -= 5000000; education_level += 10; gdp *= 1.04
+        elif i_choice == "c" and usd_balance >= 10000000:
+            usd_balance -= 10000000; infrastructure_index += 20; unemployment_rate -= 0.03
+        elif i_choice == "d" and usd_balance >= 5000000:
+            usd_balance -= 5000000; energy_security += 25; political_stability += 8
+        elif i_choice == "e" and usd_balance >= 5000000:
+            usd_balance -= 5000000; environmental_health += 15; public_approval += 5
 
     elif choice == "4":
-        print("Policy actions:")
-        print("t: Set Taxes, f: Festival (500g), r: Religious Ritual (300g), s: Science Grant (400g), c: Corruption Crackdown (200g), g: Cultural Gala (400g)")
-        e_act = input("> ").lower()
-        if e_act == "t":
-            tax_rate = int(input("New tax rate (0-70%): "))
-            if tax_rate > 25:
-                happiness -= (tax_rate - 25) * 4; stability -= (tax_rate - 25) * 2; print("The people are furious about the taxes.")
-        elif e_act == "f" and gold >= 500:
-            gold -= 500; happiness += 30; stability += 10; print("A grand festival is held.")
-        elif e_act == "r" and gold >= 300:
-            gold -= 300; faith_points += 30; is_blessed = (random.random() > 0.6); print("Ritual performed.")
-        elif e_act == "s" and gold >= 400:
-            gold -= 400; science_points += 40; print("Scientific breakthrough!")
-        elif e_act == "c" and gold >= 200:
-            gold -= 200; corruption -= 10; stability += 10; print("Corruption reduced.")
-        elif e_act == "g" and gold >= 400:
-            gold -= 400; culture += 25; prestige += 10; print("Cultural gala was a success.")
+        print("\n--- DEFENSE & FOREIGN AFFAIRS ---")
+        print("a: Military Modernization (20M USD), b: Trade Agreement, c: Sell Oil Reserves, d: Diplomatic Mission (5M USD)")
+        d_choice = input("> ").lower()
+        if d_choice == "a" and usd_balance >= 20000000:
+            usd_balance -= 20000000; military_strength += 30; global_tension += 5
+        elif d_choice == "b":
+            if political_stability > 80 and international_sanctions < 20:
+                export_volume *= 1.20; gdp *= 1.03; print("Trade agreement signed.")
+            else:
+                print("Stability too low or sanctions too high for agreements.")
+        elif d_choice == "c":
+            amt = float(input("Barrels of oil to sell: "))
+            revenue = amt * oil_price
+            usd_balance += revenue
+            print(f"Sold oil for {revenue:,.2f} USD.")
+        elif d_choice == "d" and usd_balance >= 5000000:
+            usd_balance -= 5000000; international_sanctions -= 10; global_tension -= 5
+            print("Diplomatic mission successful. Sanctions reduced.")
 
     elif choice == "5":
-        # --- YEARLY CALCULATIONS (THE SPAGHETTI CORE v3) ---
-        year += 1
+        # --- MONTHLY SIMULATION (THE SPAGHETTI CORE v3) ---
+        month += 1
+        if month > 12:
+            month = 1; year += 1
         
-        # Production & Consumption
-        food_produced = (farm_lvl * 700) + (science_points * 8)
-        food_consumed = population + (soldiers * 4)
-        if is_blessed: food_produced *= 1.3
-        food += (food_produced - food_consumed)
+        # Economic Calculations
+        gdp_growth = (education_level / 1500) + (infrastructure_index / 3000) + (energy_security / 4000) - (inflation_rate / 6) - (international_sanctions / 500)
+        gdp *= (1 + gdp_growth)
         
-        gold_income = (population * (tax_rate / 100)) + (market_lvl * 200) + (prestige * 5) + (culture * 2)
-        gold_income -= (gold_income * (corruption / 100)) # Corruption eats gold
-        gold += int(gold_income)
+        # Monthly Expenses & Revenue
+        maintenance_cost = (healthcare_quality + education_level + military_strength + infrastructure_index + environmental_health) * 50000
+        usd_balance -= maintenance_cost
         
-        # Population growth
-        if food > 0:
-            growth = int(population * 0.07)
-            population += growth; happiness += 3
-        else:
-            starvation = int(population * 0.2); population -= starvation; happiness -= 30; stability -= 20; print("!!! MASS FAMINE !!!")
-            add_history("Famine killed thousands.")
-            
-        # Rebellion logic
-        rebellion_chance = (100 - happiness) + (100 - stability) + (tax_rate * 3) + corruption
-        if rebellion_chance > 150:
-            print("!!! CIVIL WAR !!!")
-            if soldiers > 100:
-                print("The army held the capital, but the country is in ruins.")
-                population -= 200; soldiers -= 40; stability -= 40; gold -= 1000; add_history("Civil war suppressed.")
-            else:
-                print("The rebels have stormed the palace! You are dragged to the guillotine.")
-                is_game_over = True; break
+        monthly_interest = (government_debt * interest_rate) / 12
+        usd_balance -= monthly_interest
+        
+        # Market Fluctuations
+        oil_price += random.uniform(-10, 10)
+        gold_price += random.uniform(-100, 100)
+        bitcoin_price += random.uniform(-8000, 8000)
+        stock_index *= (1 + random.uniform(-0.07, 0.07))
+        exchange_rate_usd *= (1 + (inflation_rate / 12))
+        
+        # Global Tension & Sanctions
+        if global_tension > 50:
+            international_sanctions += 2; print("Global tensions are rising. Sanctions risk increased.")
         
         # Random Events
-        event = random.randint(1, 15)
+        event = random.randint(1, 30)
         if event == 1:
-            print("!!! THE GREAT PLAGUE !!!"); population -= int(population * 0.4); stability -= 30; happiness -= 30; add_history("The Great Plague struck.")
+            print("!!! GLOBAL FINANCIAL COLLAPSE !!!")
+            stock_index *= 0.6; gdp *= 0.85; usd_balance -= 15000000; international_sanctions += 10
         elif event == 2:
-            print("!!! GOLD RUSH !!!"); gold += 3000; add_history("Gold rush in the mountains.")
+            print("!!! MAJOR OIL SPILL !!!")
+            environmental_health -= 25; usd_balance -= 10000000; public_approval -= 15
         elif event == 3:
-            print("!!! FOREIGN INVASION !!!")
-            enemy_power = random.randint(100, 400)
-            total_defense = soldiers + (wall_lvl * 20) + defense_bonus
-            if total_defense > enemy_power:
-                print("Your walls and soldiers held the line!"); soldiers -= 20; add_history("Repelled foreign invasion.")
-            else:
-                print("The enemy breached the walls!"); gold -= 1500; population -= 200; stability -= 30; wall_lvl -= 1; add_history("City sacked by invaders.")
+            print("!!! REVOLUTIONARY TECH BREAKTHROUGH !!!")
+            gdp *= 1.15; education_level += 5; stock_index *= 1.2
         elif event == 4:
-            if faith_points > 100:
-                print("!!! DIVINE INTERVENTION !!!"); happiness = 100; stability = 100; gold += 1000; add_history("Divine miracle occurred.")
+            print("!!! REGIONAL WAR !!!")
+            global_tension += 20; oil_price += 40; export_volume *= 0.7
         elif event == 5:
-            print("!!! CORRUPTION SCANDAL !!!"); corruption += 20; stability -= 20; add_history("Corruption scandal exposed.")
-        elif event == 6:
-            if science_points > 100:
-                print("!!! INDUSTRIAL REVOLUTION !!!"); farm_lvl += 2; market_lvl += 2; gold += 2000; add_history("Industrial revolution began.")
+            print("!!! CLIMATE DISASTER !!!")
+            infrastructure_index -= 20; population -= 50000; usd_balance -= 20000000
         
-        # Corruption growth
-        corruption += 2
+        # Consequences
+        if inflation_rate > 0.25:
+            public_approval -= 20; political_stability -= 15; print("Hyperinflation is out of control!")
         
-        # Check lose conditions
-        if population <= 0:
-            print("Your kingdom is a wasteland. GAME OVER."); is_game_over = True
-        elif stability <= 0:
-            print("Total anarchy has consumed the empire. GAME OVER."); is_game_over = True
-        elif gold < -5000:
-            print("The international bankers have repossessed your crown. GAME OVER."); is_game_over = True
-        
-        is_blessed = False
+        if environmental_health < 40:
+            print("ENVIRONMENTAL COLLAPSE! Public health is declining."); healthcare_quality -= 10; public_approval -= 10
+            
+        if usd_balance < 0:
+            print("SOVEREIGN DEFAULT!"); government_debt += abs(usd_balance) * 3; usd_balance = 0; inflation_rate += 0.25; international_sanctions += 30
+            
+        # Win/Loss Conditions
+        if political_stability <= 0:
+            print("TOTAL COLLAPSE! The nation has fallen into civil war."); is_game_over = True
+        elif gdp < 100000000:
+            print("The economy has disintegrated."); is_game_over = True
+        elif population <= 0:
+            print("The population has vanished."); is_game_over = True
 
     elif choice == "6":
-        print("You have left the throne. Your name will be a footnote in history."); is_game_over = True
+        print("You have resigned. Your legacy is now in the hands of historians."); is_game_over = True
     
     # Spaghetti logic: Unconnected state management
-    if happiness > 100: happiness = 100
-    if happiness < 0: happiness = 0
-    if stability > 100: stability = 100
-    if stability < 0: stability = 0
-    if corruption < 0: corruption = 0
-    
-    if prestige > 500:
-        print("YOU ARE THE EMPEROR OF THE WORLD!")
+    if public_approval > 100: public_approval = 100
+    if public_approval < 0: public_approval = 0
+    if political_stability > 100: political_stability = 100
+    if political_stability < 0: political_stability = 0
+    if international_sanctions > 100: international_sanctions = 100
+    if international_sanctions < 0: international_sanctions = 0
     
     time.sleep(1.5)
 
-print("\n" + "💀"*30)
-print("FINAL SCORE:", (gold + population + soldiers + prestige + science_points + faith_points + culture))
-print("💀"*30)
+print("\n" + "🏛️"*50)
+print(f"FINAL GDP: {gdp:,.2f} USD")
+print(f"FINAL DEBT: {government_debt:,.2f} USD")
+print(f"FINAL POPULATION: {population:,}")
+print(f"FINAL APPROVAL: {public_approval}%")
+print(f"FINAL SANCTIONS: {international_sanctions}%")
+print("🏛️"*50)
